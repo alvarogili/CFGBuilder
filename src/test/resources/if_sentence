@@ -1,0 +1,7 @@
+id := 1
+id := id + id
+if (id > 1) then {
+    id := 0
+} else {
+    id := id + id
+}

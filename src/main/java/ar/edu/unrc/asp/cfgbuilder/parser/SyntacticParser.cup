@@ -1,0 +1,147 @@
+package ar.edu.unrc.asp.cfgbuilder.parser;
+
+import java_cup.runtime.*;
+import java.io.FileReader;
+
+parser code {:   
+
+    public Object previousNode = null;
+
+    public void processNode(Object s){
+        if(s != null){
+            if(s != null){
+                if(previousNode == null){
+                    System.out.println("Entry -> "+s);
+                }else{
+                    System.out.println(previousNode +" -> "+s);
+                }
+                previousNode = s;
+            }
+        }
+    }
+
+    public void report_error(String message, Object info) {
+       	StringBuffer m = new StringBuffer("Error");
+		System.out.println("Message: "+message);
+		System.out.println("info: "+info.toString());
+		if(info instanceof java_cup.runtime.Symbol) {
+			java_cup.runtime.Symbol s=((java_cup.runtime.Symbol)info);
+			/* Comprueba si el numero de línea es mayor o igual que cero */
+			if(s.left >= 0) {
+				m.append(" in the line "+(s.left+1));
+				/*Comprueba si el numero de columna es mayoro igual que cero */
+				if (s.right >= 0)
+					m.append(", and column "+(s.right+1));
+			}
+		}
+		m.append(" : "+message);
+		System.err.println(m);
+    }
+    public void report_fatal_error(String message, Object info) {
+       	report_error(message, info);
+		System.exit(1);
+    }
+:};
+
+/******************** terminales y no terminales *************************/
+
+terminal PLUS, MINUS, TIMES, SLASH, LPAREN, RPAREN, LBRACE, RBRACE, BECOMES, EQL, LSS, GRT, DOSYM, IFSYM, ELSESYM, THENSYM, WHILESYM;
+terminal String ID, INT;
+
+non terminal Object Grammar, Expression, Statement, Assignment, Value;
+non terminal String Identifier, Integer;
+
+/******************** gramática *************************/
+Grammar  ::=  Grammar:g Statement:s
+                    {:
+                       //parser.processNode(s);
+                        System.out.println(s);
+                    :}  
+                | Statement:s   
+                    {:
+                        //parser.processNode(s);
+                        System.out.println(s);
+                    :} 
+                ;
+Statement   ::= Assignment:a
+                    {:
+                        RESULT = a;
+                    :}
+                |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s1 RBRACE ELSESYM LBRACE Grammar:s2 RBRACE
+                    {:                         
+                         //parser.processNode(e);
+                         System.out.println("if " +e);
+                    :}
+                |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE
+                    {:
+                        //parser.processNode(e);
+                    :}
+                |   DOSYM LBRACE Grammar:s RBRACE WHILESYM LPAREN Expression:e RPAREN
+                    {:                      
+                        //parser.processNode(e);
+                        System.out.println(e);
+                    :}
+                ;
+                
+
+Assignment  ::= Identifier:i BECOMES Expression:e
+                    {:
+                      RESULT = new String(i.toString() + ":=" + e.toString());
+                    :}
+                ;
+
+Expression  ::= Value:i
+                    {:
+                        RESULT = i;
+                    :}                
+                |   Value:i1 PLUS Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + "+" +  i2.toString());
+                    :}
+                |   Value:i1 MINUS Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + "-" + i2.toString());
+                    :}
+                |   Value:i1 TIMES Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + "*" + i2.toString());
+                    :}
+                |   Value:i1 SLASH Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + "/" + i2.toString());
+                    :}
+                |   Identifier:i1 GRT Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + ">" + i2.toString());
+                    :}
+                |   Identifier:i1 LSS Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + "<" + i2.toString());
+                    :}
+                |   Identifier:i1 EQL Value:i2
+                    {:
+                        RESULT = new String(i1.toString() + "==" + i2.toString());
+                    :}
+                ;
+
+Value       ::= Identifier:i
+                {:
+                    RESULT = i;
+                :}
+                |   Integer:i
+                {:
+                    RESULT = i;
+                :}
+                ;
+
+Identifier  ::= ID:i
+                {:
+                    RESULT = i;
+                :}
+                ;
+
+Integer     ::= INT:i
+                {:
+                    RESULT = i;
+                :}
+                ;

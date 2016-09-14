@@ -1,0 +1,5 @@
+id := 1
+do {
+    id := id + 1 
+} while (id < 10)
+    

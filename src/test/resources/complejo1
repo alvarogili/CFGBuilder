@@ -1,0 +1,17 @@
+a := 1
+b := a + a
+if ( a > 1 ) then {
+    b := 0
+    do {
+          b := a + 1
+          a := 2
+    } while  ( b > 10 )
+} else {
+    a := a + b
+    if (a > b) then {
+        a := a - a
+    } else {
+        b := b + b
+    }
+}
+a := 0
