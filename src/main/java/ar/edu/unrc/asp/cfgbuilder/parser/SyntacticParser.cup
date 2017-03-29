@@ -2,46 +2,25 @@ package ar.edu.unrc.asp.cfgbuilder.parser;
 
 import java_cup.runtime.*;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+import ar.edu.unrc.asp.cfgbuilder.CFGBuilder;
+import ar.edu.unrc.asp.cfgbuilder.Node;
 
 parser code {:   
 
-    public Object previousNode = null;
+    private Map<String, Node> nodes = new HashMap<>();
 
-    public void processNode(Object s){
-        if(s != null){
-            if(s != null){
-                if(previousNode == null){
-                    System.out.println("Entry -> "+s);
-                }else{
-                    System.out.println(previousNode +" -> "+s);
-                }
-                previousNode = s;
-            }
-        }
+    private CFGBuilder cfgBuilder = new CFGBuilder();
+
+    public CFGBuilder getCfgBuilder(){
+        return cfgBuilder;
     }
 
-    public void report_error(String message, Object info) {
-       	StringBuffer m = new StringBuffer("Error");
-		System.out.println("Message: "+message);
-		System.out.println("info: "+info.toString());
-		if(info instanceof java_cup.runtime.Symbol) {
-			java_cup.runtime.Symbol s=((java_cup.runtime.Symbol)info);
-			/* Comprueba si el numero de línea es mayor o igual que cero */
-			if(s.left >= 0) {
-				m.append(" in the line "+(s.left+1));
-				/*Comprueba si el numero de columna es mayoro igual que cero */
-				if (s.right >= 0)
-					m.append(", and column "+(s.right+1));
-			}
-		}
-		m.append(" : "+message);
-		System.err.println(m);
+    public Map<String, Node> getNodes(){
+        return nodes;
     }
-    public void report_fatal_error(String message, Object info) {
-       	report_error(message, info);
-		System.exit(1);
-    }
-:};
 
 /******************** terminales y no terminales *************************/
 

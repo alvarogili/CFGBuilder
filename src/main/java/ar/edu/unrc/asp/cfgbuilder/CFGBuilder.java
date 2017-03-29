@@ -16,6 +16,10 @@ import java.util.stream.Stream;
  */
 public class CFGBuilder {
 
+    private Node startNode;
+
+    private final List<Node> nodeList = new ArrayList<>();
+
     public CFGBuilder() {
     }
 
@@ -24,21 +28,21 @@ public class CFGBuilder {
      * @param inputFile
      * @return
      */
-    public List<CFGNode> getBasicBlocks(String inputFile) throws IOException {
-        List<CFGNode> basicBlocks = new ArrayList<>();
-        List<String> statements = new ArrayList<>();        
-        try (Stream<String> lines = Files.lines(Paths.get(inputFile), Charset.defaultCharset())) {
-            lines.forEachOrdered(statements::add);            
-        }
-        CFGNode basicBlock = null;
-        for(String statement: statements){
-            statement = statement.trim();
-            if(basicBlock == null 
-                    || statement.toLowerCase().startsWith("if")
-                    || statement.toLowerCase().startsWith("do")){
-            }
-            System.out.println(statement.trim());
-        }
-        return basicBlocks;
-    }
+//    public List<CFGNode> getBasicBlocks(String inputFile) throws IOException {
+//        List<CFGNode> basicBlocks = new ArrayList<>();
+//        List<String> statements = new ArrayList<>();
+//        try (Stream<String> lines = Files.lines(Paths.get(inputFile), Charset.defaultCharset())) {
+//            lines.forEachOrdered(statements::add);
+//        }
+//        CFGNode basicBlock = null;
+//        for(String statement: statements){
+//            statement = statement.trim();
+//            if(basicBlock == null
+//                    || statement.toLowerCase().startsWith("if")
+//                    || statement.toLowerCase().startsWith("do")){
+//            }
+//            System.out.println(statement.trim());
+//        }
+//        return basicBlocks;
+//    }
 }
