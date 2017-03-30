@@ -16,9 +16,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, Exception {
-        java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(new File("src/test/resources/complejo1")));
+        java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(new File("src/test/resources/asign")));
         SyntacticParser parser = new SyntacticParser(scanner);
-        parser.parse();            
+        parser.parse();
+        CFGBuilder cFGBuilder = parser.getCfgBuilder();
+        cFGBuilder.getStartNode();
     }
 
 }

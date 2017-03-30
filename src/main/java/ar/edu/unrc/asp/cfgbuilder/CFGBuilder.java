@@ -23,6 +23,15 @@ public class CFGBuilder {
     public CFGBuilder() {
     }
 
+    public Node getStartNode() {
+        return startNode;
+    }
+
+    public void setStartNode(Node startNode) {
+        this.startNode = startNode;
+    }
+
+
     /**
      *
      * @param inputFile

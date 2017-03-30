@@ -14,6 +14,8 @@ parser code {:
 
     private CFGBuilder cfgBuilder = new CFGBuilder();
 
+    private Node currentNode;
+
     public CFGBuilder getCfgBuilder(){
         return cfgBuilder;
     }
@@ -22,6 +24,14 @@ parser code {:
         return nodes;
     }
 
+    public Node getCurrentNode(){
+        return currentNode;
+    }
+
+    public void setCurrentNode(Node replace){
+        currentNode = replace;
+    }
+:};
 /******************** terminales y no terminales *************************/
 
 terminal PLUS, MINUS, TIMES, SLASH, LPAREN, RPAREN, LBRACE, RBRACE, BECOMES, EQL, LSS, GRT, DOSYM, IFSYM, ELSESYM, THENSYM, WHILESYM;
@@ -33,23 +43,34 @@ non terminal String Identifier, Integer;
 /******************** gramática *************************/
 Grammar  ::=  Grammar:g Statement:s
                     {:
-                       //parser.processNode(s);
-                        System.out.println(s);
+                       Node newNode = (Node) s;
+                       newNode.addNexts("next", parser.getCurrentNode());
+                       parser.setCurrentNode(newNode);
                     :}  
-                | Statement:s   
+                | Statement:s 
                     {:
-                        //parser.processNode(s);
-                        System.out.println(s);
-                    :} 
+                        parser.setCurrentNode((Node) s);
+                        if(parser.getCfgBuilder().getStartNode() == null){
+                            parser.getCfgBuilder().setStartNode(parser.getCurrentNode());
+
+                        }
+                    :}
                 ;
 Statement   ::= Assignment:a
                     {:
-                        RESULT = a;
+                        System.out.println(a);
+                        Node newNode = new Node((String)a);
+                        newNode.addNexts("next", parser.getCurrentNode());
+                        parser.setCurrentNode(newNode);
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s1 RBRACE ELSESYM LBRACE Grammar:s2 RBRACE
                     {:                         
-                         //parser.processNode(e);
-                         System.out.println("if " +e);
+                        Node exp = new Node((String)e);
+                        //Node ifTrue = (Node) s1;
+                        //Node ifFalse = (Node) s2;
+                        //exp.addNexts("ifTrue", ifTrue);
+                        //exp.addNexts("ifFalse", ifFalse);
+                        RESULT = exp;
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE
                     {:
