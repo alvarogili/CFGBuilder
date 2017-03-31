@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 public class CFGBuilder {
 
-    private Node startNode;
+    private Node startNode = null;
 
     private final List<Node> nodeList = new ArrayList<>();
 

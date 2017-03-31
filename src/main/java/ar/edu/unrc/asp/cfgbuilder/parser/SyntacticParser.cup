@@ -41,27 +41,26 @@ non terminal Object Grammar, Expression, Statement, Assignment, Value;
 non terminal String Identifier, Integer;
 
 /******************** gramática *************************/
-Grammar  ::=  Grammar:g Statement:s
+Grammar  ::= Statement:s Grammar:g 
                     {:
-                       Node newNode = (Node) s;
-                       newNode.addNexts("next", parser.getCurrentNode());
-                       parser.setCurrentNode(newNode);
+                        if(s != null){
+                            Node newNode = (Node) s;
+                            newNode.addNexts("next", parser.getCurrentNode());
+                            parser.setCurrentNode(newNode);     
+                            if(parser.getCfgBuilder().getStartNode() == null){
+                                parser.getCfgBuilder().setStartNode(parser.getCurrentNode());
+                            }
+                        }
                     :}  
                 | Statement:s 
-                    {:
-                        parser.setCurrentNode((Node) s);
-                        if(parser.getCfgBuilder().getStartNode() == null){
-                            parser.getCfgBuilder().setStartNode(parser.getCurrentNode());
-
-                        }
+                    {:                                                
                     :}
                 ;
 Statement   ::= Assignment:a
                     {:
-                        System.out.println(a);
-                        Node newNode = new Node((String)a);
-                        newNode.addNexts("next", parser.getCurrentNode());
+                        Node newNode = new Node((String)a);                        
                         parser.setCurrentNode(newNode);
+                        RESULT = newNode;
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s1 RBRACE ELSESYM LBRACE Grammar:s2 RBRACE
                     {:                         
@@ -73,8 +72,12 @@ Statement   ::= Assignment:a
                         RESULT = exp;
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE
-                    {:
-                        //parser.processNode(e);
+                    {:                        
+                        Node exp = new Node((String)e);
+                        Node ifTrue = (Node) s;
+                        exp.addNexts("ifTrue", ifTrue);                        
+                        parser.getCurrentNode().addNexts("next", exp);
+                        RESULT = exp;
                     :}
                 |   DOSYM LBRACE Grammar:s RBRACE WHILESYM LPAREN Expression:e RPAREN
                     {:                      
