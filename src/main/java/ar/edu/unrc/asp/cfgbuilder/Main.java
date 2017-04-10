@@ -1,7 +1,7 @@
 package ar.edu.unrc.asp.cfgbuilder;
 
 import ar.edu.unrc.asp.cfgbuilder.parser.LexicalParser;
-import ar.edu.unrc.asp.cfgbuilder.parser.SyntacticParser;
+import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,7 +17,7 @@ public class Main {
      */
     public static void main(String[] args) throws IOException, Exception {
         java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(new File("src/test/resources/if_sentence")));
-        SyntacticParser parser = new SyntacticParser(scanner);
+        Parser parser = new Parser(scanner);
         parser.parse();
         CFGBuilder cFGBuilder = parser.getCfgBuilder();
         cFGBuilder.getStartNode();

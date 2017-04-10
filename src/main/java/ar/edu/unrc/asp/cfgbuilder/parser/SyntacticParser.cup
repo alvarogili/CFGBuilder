@@ -37,7 +37,7 @@ parser code {:
 terminal PLUS, MINUS, TIMES, SLASH, LPAREN, RPAREN, LBRACE, RBRACE, BECOMES, EQL, LSS, GRT, DOSYM, IFSYM, ELSESYM, THENSYM, WHILESYM;
 terminal String ID, INT;
 
-non terminal Object Grammar, Expression, Statement, Assignment, Value;
+non terminal Object Grammar, Expression, Statement, Assignment, Value, Then;
 non terminal String Identifier, Integer;
 
 /******************** gramática *************************/
@@ -53,14 +53,31 @@ Grammar  ::= Statement:s Grammar:g
                         }
                     :}  
                 | Statement:s 
-                    {:                                                
+                    {:      
+                        if(s != null){
+                            Node newNode = (Node) s;                           
+                            if(parser.getCfgBuilder().getStartNode() == null){
+                                parser.getCfgBuilder().setStartNode(newNode);
+                            }else{
+                                newNode.addNexts("next", parser.getCurrentNode());
+                                parser.setCurrentNode(newNode);     
+                            }
+                        }
                     :}
                 ;
 Statement   ::= Assignment:a
-                    {:
-                        Node newNode = new Node((String)a);                        
-                        parser.setCurrentNode(newNode);
-                        RESULT = newNode;
+                    {:                          
+                        Node currentNode = parser.getCurrentNode();
+                        Node newNode = new Node((String)a);
+                        if(currentNode != null) {
+                            currentNode.addNexts("next", newNode);
+                            parser.setCurrentNode(newNode);
+                        }else{
+                            if(parser.getCfgBuilder().getStartNode() == null){                                                        
+                                parser.setCurrentNode(newNode);
+                                parser.getCfgBuilder().setStartNode(parser.getCurrentNode());
+                            }
+                        }
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s1 RBRACE ELSESYM LBRACE Grammar:s2 RBRACE
                     {:                         
@@ -71,13 +88,12 @@ Statement   ::= Assignment:a
                         //exp.addNexts("ifFalse", ifFalse);
                         RESULT = exp;
                     :}
-                |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE
+                |   IFSYM LPAREN Expression:e RPAREN Then
                     {:                        
+                        Node current = parser.getCurrentNode();                        
                         Node exp = new Node((String)e);
-                        Node ifTrue = (Node) s;
-                        exp.addNexts("ifTrue", ifTrue);                        
-                        parser.getCurrentNode().addNexts("next", exp);
-                        RESULT = exp;
+                        exp.addNexts("ifTrue", current);  
+                        parser.setCurrentNode(current);
                     :}
                 |   DOSYM LBRACE Grammar:s RBRACE WHILESYM LPAREN Expression:e RPAREN
                     {:                      
@@ -85,7 +101,8 @@ Statement   ::= Assignment:a
                         System.out.println(e);
                     :}
                 ;
-                
+Then        ::= THENSYM LBRACE Grammar:s RBRACE
+                    {::};
 
 Assignment  ::= Identifier:i BECOMES Expression:e
                     {:
