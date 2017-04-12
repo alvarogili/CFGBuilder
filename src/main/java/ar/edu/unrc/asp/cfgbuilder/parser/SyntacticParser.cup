@@ -24,7 +24,8 @@ non terminal String Identifier, Integer;
 Grammar  ::= Statement:s Grammar:g 
                     {:
                         Node newNode = (Node) s;
-                        newNode.addNexts("next", (Node) g);                       
+                        Node lastNode = newNode.getLast();
+                        lastNode.addNexts("next", (Node) g);
                         RESULT = newNode;
                     :}  
                 | Statement:s 
@@ -44,10 +45,14 @@ Statement   ::= Assignment:a
                         Node ifFalse = (Node) s2;
                         exp.addNexts("ifTrue", ifTrue);
                         exp.addNexts("ifFalse", ifFalse);
-tengo que obtener los ultimos de ifTrue e ifFalse y asignales endIf
+
                         Node endIf = new Node("endIf");
-                        ifTrue.addNexts("next", endIf);
-                        ifFalse.addNexts("next", endIf);
+
+                        Node lastNodeIfTrue = ifTrue.getLast();
+                        lastNodeIfTrue.addNexts("next", endIf);
+
+                        Node lastNodeIfFalse = ifFalse.getLast();
+                        lastNodeIfFalse.addNexts("next", endIf);
                         RESULT = exp;
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE
@@ -55,6 +60,13 @@ tengo que obtener los ultimos de ifTrue e ifFalse y asignales endIf
                         Node exp = new Node((String)e);
                         Node ifTrue = (Node) s;
                         exp.addNexts("ifTrue", ifTrue);
+
+                        Node endIf = new Node("endIf");
+
+                        Node lastNodeIfTrue = ifTrue.getLast();
+                        lastNodeIfTrue.addNexts("next", endIf);
+
+                        exp.addNexts("ifFalse", endIf);
                         RESULT = exp;
                     :}
                 |   DOSYM LBRACE Grammar:s RBRACE WHILESYM LPAREN Expression:e RPAREN

@@ -137,4 +137,17 @@ public class Node implements Comparable<Node>{
     public int compareTo(Node o) {
         return this.name.compareTo(o.getName());
     }
+
+    /**
+     * Retorna el último nodo del trozo de código corriente
+     *
+     * @return
+     */
+    public Node getLast() {
+        if (getNexts().isEmpty()) {
+            return this;
+        } else {
+            return getNexts().get(0).getNode().getLast();
+        }
+    }
 }
