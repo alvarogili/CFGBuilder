@@ -10,27 +10,7 @@ import ar.edu.unrc.asp.cfgbuilder.Node;
 
 parser code {:   
 
-    private Map<String, Node> nodes = new HashMap<>();
-
-    private CFGBuilder cfgBuilder = new CFGBuilder();
-
-    private Node currentNode;
-
-    public CFGBuilder getCfgBuilder(){
-        return cfgBuilder;
-    }
-
-    public Map<String, Node> getNodes(){
-        return nodes;
-    }
-
-    public Node getCurrentNode(){
-        return currentNode;
-    }
-
-    public void setCurrentNode(Node replace){
-        currentNode = replace;
-    }
+    
 :};
 /******************** terminales y no terminales *************************/
 
@@ -44,18 +24,12 @@ non terminal String Identifier, Integer;
 Grammar  ::= Statement:s Grammar:g 
                     {:
                         Node newNode = (Node) s;
-                        newNode.addNexts("next", (Node) g);
-                        if(parser.getCfgBuilder().getStartNode() == null){
-                                parser.getCfgBuilder().setStartNode(newNode);
-                        }
+                        newNode.addNexts("next", (Node) g);                       
                         RESULT = newNode;
                     :}  
                 | Statement:s 
                     {:      
-                        Node newNode = (Node) s;
-                        if(parser.getCfgBuilder().getStartNode() == null){
-                                parser.getCfgBuilder().setStartNode(newNode);
-                        }
+                        Node newNode = (Node) s;                        
                         RESULT = newNode;
                     :}
                 ;
@@ -66,10 +40,14 @@ Statement   ::= Assignment:a
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s1 RBRACE ELSESYM LBRACE Grammar:s2 RBRACE
                     {:                         
                         Node exp = new Node((String)e);
-                        //Node ifTrue = (Node) s1;
-                        //Node ifFalse = (Node) s2;
-                        //exp.addNexts("ifTrue", ifTrue);
-                        //exp.addNexts("ifFalse", ifFalse);
+                        Node ifTrue = (Node) s1;
+                        Node ifFalse = (Node) s2;
+                        exp.addNexts("ifTrue", ifTrue);
+                        exp.addNexts("ifFalse", ifFalse);
+tengo que obtener los ultimos de ifTrue e ifFalse y asignales endIf
+                        Node endIf = new Node("endIf");
+                        ifTrue.addNexts("next", endIf);
+                        ifFalse.addNexts("next", endIf);
                         RESULT = exp;
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE

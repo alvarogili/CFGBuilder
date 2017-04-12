@@ -5,3 +5,4 @@ if (id > 1) then {
     id2 := 1
 }
 id := id + id2
+id2 := 3
