@@ -17,7 +17,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, Exception {
-        java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(new File("src/test/resources/asign")));
+        java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(new File("src/test/resources/do_while_sentence")));
         Parser parser = new Parser(scanner);
         Symbol s = parser.parse();
         Node startNode = (Node) s.value;

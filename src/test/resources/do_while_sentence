@@ -1,5 +1,7 @@
 id := 1
 do {
-    id := id + 1 
+    id := id + 1
+    id2 := 2
 } while (id < 10)
+id2 := 3
     

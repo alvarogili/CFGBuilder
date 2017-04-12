@@ -71,8 +71,16 @@ Statement   ::= Assignment:a
                     :}
                 |   DOSYM LBRACE Grammar:s RBRACE WHILESYM LPAREN Expression:e RPAREN
                     {:                      
-                        //parser.processNode(e);
-                        System.out.println(e);
+                        Node doBody = (Node) s;
+
+                        Node lastDoBody = doBody.getLast();
+                        Node exp = new Node((String)e);
+                        lastDoBody.addNexts("exp", exp);
+
+                        Node endDo = new Node("endDo");
+                        exp.addNexts("ifFalse", endDo);
+                        exp.addNexts("ifTrue", doBody);
+                        RESULT = doBody;
                     :}
                 ;
 
