@@ -1,6 +1,8 @@
 package ar.edu.unrc.asp.cfgbuilder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -18,8 +20,6 @@ public class CFGBuilder {
 
     private Node startNode = null;
 
-    private final List<Node> nodeList = new ArrayList<>();
-
     public CFGBuilder() {
     }
 
@@ -31,27 +31,30 @@ public class CFGBuilder {
         this.startNode = startNode;
     }
 
-
     /**
+     * Genera un archivo dot
      *
-     * @param inputFile
-     * @return
+     * @param outputFile archivo de salida en donde se escribirá el resultado
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-//    public List<CFGNode> getBasicBlocks(String inputFile) throws IOException {
-//        List<CFGNode> basicBlocks = new ArrayList<>();
-//        List<String> statements = new ArrayList<>();
-//        try (Stream<String> lines = Files.lines(Paths.get(inputFile), Charset.defaultCharset())) {
-//            lines.forEachOrdered(statements::add);
-//        }
-//        CFGNode basicBlock = null;
-//        for(String statement: statements){
-//            statement = statement.trim();
-//            if(basicBlock == null
-//                    || statement.toLowerCase().startsWith("if")
-//                    || statement.toLowerCase().startsWith("do")){
-//            }
-//            System.out.println(statement.trim());
-//        }
-//        return basicBlocks;
-//    }
+    public void generateDotFile(File outputFile) throws FileNotFoundException, IOException {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(outputFile)) {
+            fileOutputStream.write("digraph{\n".getBytes());
+            fileOutputStream.write("\tinic[shape=point];\n".getBytes());
+            fileOutputStream.write(("\tinic->" + startNode.getName() + ";\n").getBytes());
+            fileOutputStream.write(startNode.generateRelations().getBytes());
+            startNode.setPrinted(true);
+            printChildrens(startNode.getNexts(), fileOutputStream);
+            fileOutputStream.write("}".getBytes());
+        }
+    }
+
+    private void printChildrens(List<Next> nodes, FileOutputStream fileOutputStream) throws IOException {
+        for (Next next : nodes) {
+            fileOutputStream.write(next.getNode().generateRelations().getBytes());
+            printChildrens(next.getNode().getNexts(), fileOutputStream);
+        }
+    }
+
 }

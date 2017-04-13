@@ -14,6 +14,8 @@ public class Node implements Comparable<Node>{
     private String name;
     ///Nodos siguientes, donde la clave representa el label
     private List<Next> nexts = new ArrayList<>();
+    
+    private boolean printed = false;
 
     private boolean end = false;
 
@@ -39,6 +41,14 @@ public class Node implements Comparable<Node>{
     public void setNexts(List<Next> nexts) {
         this.nexts = nexts;
     }
+
+    public boolean isPrinted() {
+        return printed;
+    }
+
+    public void setPrinted(boolean printed) {
+        this.printed = printed;
+    }        
     
     /**
      * Given a label return all available nodes with it 
