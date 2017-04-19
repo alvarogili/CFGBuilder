@@ -5,6 +5,7 @@ import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 import java_cup.runtime.Symbol;
 
 /**
@@ -17,13 +18,34 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, Exception {
-        java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(new File("src/test/resources/do_while_sentence")));
-        Parser parser = new Parser(scanner);
-        Symbol s = parser.parse();
-        Node startNode = (Node) s.value;
-        CFGBuilder cFGBuilder = new CFGBuilder();
-        cFGBuilder.setStartNode(startNode);
-        System.out.println(cFGBuilder.getStartNode().getName());
-    }
+         System.out.println("\nAnálisis Estatico Programas");
+        System.out.println("Proyecto Potenciar Graduación");
+        Utilities utilities = new Utilities();
+        Scanner reader = new Scanner(System.in);
+        do {
+            printHelp();
+
+            String i = reader.next();
+
+            if (null != i) switch (i) {
+                case "1":
+                    utilities.generateCFGBuilder(reader);
+                    break;
+                case "0":
+                    reader.close();
+                    return;
+                default:
+                    printHelp();
+                    break;
+            }
+        } while (true);
+            }
+
+    private static void printHelp() {
+        System.out.println("\nElija una opción:");
+        System.out.println("\t1: para trabajar con CFGs");
+        //System.out.println("\t2: para ");
+        System.out.println("\t0: para salir");
+    }            
 
 }

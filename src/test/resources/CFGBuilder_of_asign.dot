@@ -1,0 +1,5 @@
+digraph{
+	inic[shape=point];
+	inic->id:=1;
+	id:=1->id:=id+id [label="next"];
+}

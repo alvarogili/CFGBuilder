@@ -51,9 +51,13 @@ public class CFGBuilder {
     }
 
     private void printChildrens(List<Next> nodes, FileOutputStream fileOutputStream) throws IOException {
-        for (Next next : nodes) {
-            fileOutputStream.write(next.getNode().generateRelations().getBytes());
-            printChildrens(next.getNode().getNexts(), fileOutputStream);
+        for (Next next : nodes) {            
+            Node node = next.getNode();
+            if(!node.isPrinted()){
+                fileOutputStream.write(node.generateRelations().getBytes());
+                node.setPrinted(true);
+                printChildrens(node.getNexts(), fileOutputStream);            
+            }
         }
     }
 

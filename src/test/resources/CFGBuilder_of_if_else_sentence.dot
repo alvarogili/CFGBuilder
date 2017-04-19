@@ -1,0 +1,14 @@
+digraph{
+	inic[shape=point];
+	inic->id:=1;
+	id:=1->id:=id+id [label="next"];
+	id:=id+id->id>1 [label="next"];
+	id>1->id:=0 [label="ifTrue"];
+	id>1->id:=2 [label="ifFalse"];
+	id:=0->id2:=1 [label="next"];
+	id2:=1->endIf0 [label="next"];
+	endIf0->id:=id+id2 [label="next"];
+	id:=id+id2->id2:=4 [label="next"];
+	id:=2->id2:=3 [label="next"];
+	id2:=3->endIf0 [label="next"];
+}

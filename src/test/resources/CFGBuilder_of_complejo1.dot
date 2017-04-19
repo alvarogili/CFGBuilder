@@ -1,0 +1,21 @@
+digraph{
+	inic[shape=point];
+	inic->a:=1;
+	a:=1->b:=a+a [label="next"];
+	b:=a+a->a>1 [label="next"];
+	a>1->b:=0 [label="ifTrue"];
+	a>1->a:=a+b [label="ifFalse"];
+	b:=0->b:=a+1 [label="next"];
+	b:=a+1->a:=2 [label="next"];
+	a:=2->b>10 [label="exp"];
+	b>10->endDo0 [label="ifFalse"];
+	b>10->b:=a+1 [label="ifTrue"];
+	endDo0->endIf1 [label="next"];
+	endIf1->a:=0 [label="next"];
+	a:=a+b->a>b [label="next"];
+	a>b->a:=a-a [label="ifTrue"];
+	a>b->b:=b+b [label="ifFalse"];
+	a:=a-a->endIf0 [label="next"];
+	endIf0->endIf1 [label="next"];
+	b:=b+b->endIf0 [label="next"];
+}
