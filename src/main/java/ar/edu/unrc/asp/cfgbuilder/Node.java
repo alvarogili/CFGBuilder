@@ -1,6 +1,6 @@
 package ar.edu.unrc.asp.cfgbuilder;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,8 +12,10 @@ public class Node implements Comparable<Node>{
 
     ///Nombre del nodo
     private String name;
+    //Expresión a la que representa el nodo
+    private String label;
     ///Nodos siguientes, donde la clave representa el label
-    private List<Next> nexts = new ArrayList<>();
+    private List<Next> nexts = new LinkedList<>();
     
     private boolean printed = false;
 
@@ -22,8 +24,9 @@ public class Node implements Comparable<Node>{
     public Node() {
     }
 
-    public Node(String name) {
+    public Node(String name, String label) {
         this.name = name;
+        this.label = label;
     }
 
     public String getName() {
@@ -33,6 +36,14 @@ public class Node implements Comparable<Node>{
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }        
 
     public List<Next> getNexts() {
         return nexts;
@@ -56,7 +67,7 @@ public class Node implements Comparable<Node>{
      * @return List of available nodes
      */
     public List<Node> getNexts(String label){
-        List<Node> nextNodes = new ArrayList<>();
+        List<Node> nextNodes = new LinkedList<>();
         for(Next n : getNexts()){
             if(n.getLabel().equals(label)){
                 nextNodes.add(n.getNode());

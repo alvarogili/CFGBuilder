@@ -27,6 +27,7 @@ public class Utilities {
             Node startNode = (Node) s.value;
             cFGBuilder = new CFGBuilder();
             cFGBuilder.setStartNode(startNode);
+            cFGBuilder.setNodeList(parser.nodeList);
             System.out.println("\nArchivo procesado correctamente.");
         } catch (FileNotFoundException ex) {
             System.out.println("\nArchivo no encontrado: " + ex.getLocalizedMessage());

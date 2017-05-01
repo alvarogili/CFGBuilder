@@ -1,10 +1,18 @@
 digraph{
 	inic[shape=point];
-	inic->id:=1;
-	id:=1->id:=id+1 [label="next"];
-	id:=id+1->id2:=2 [label="next"];
-	id2:=2->id<10 [label="exp"];
-	id<10->endDo0 [label="ifFalse"];
-	id<10->id:=id+1 [label="ifTrue"];
-	endDo0->id2:=3 [label="next"];
+
+	n0[label="id:=1"]
+	n1[label="id:=id+1"]
+	n2[label="id2:=2"]
+	n3[label="id<10"]
+	n4[label="endDo0"]
+	n5[label="id2:=3"]
+
+	inic->n0;
+	n0->n1 [label="next"];
+	n1->n2 [label="next"];
+	n2->n3 [label="exp"];
+	n3->n4 [label="ifFalse"];
+	n3->n1 [label="ifTrue"];
+	n4->n5 [label="next"];
 }

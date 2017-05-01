@@ -1,21 +1,38 @@
 digraph{
 	inic[shape=point];
-	inic->a:=1;
-	a:=1->b:=a+a [label="next"];
-	b:=a+a->a>1 [label="next"];
-	a>1->b:=0 [label="ifTrue"];
-	a>1->a:=a+b [label="ifFalse"];
-	b:=0->b:=a+1 [label="next"];
-	b:=a+1->a:=2 [label="next"];
-	a:=2->b>10 [label="exp"];
-	b>10->endDo0 [label="ifFalse"];
-	b>10->b:=a+1 [label="ifTrue"];
-	endDo0->endIf1 [label="next"];
-	endIf1->a:=0 [label="next"];
-	a:=a+b->a>b [label="next"];
-	a>b->a:=a-a [label="ifTrue"];
-	a>b->b:=b+b [label="ifFalse"];
-	a:=a-a->endIf0 [label="next"];
-	endIf0->endIf1 [label="next"];
-	b:=b+b->endIf0 [label="next"];
+
+	n0[label="a:=1"]
+	n1[label="b:=a+a"]
+	n2[label="b:=0"]
+	n3[label="b:=a+1"]
+	n4[label="a:=2"]
+	n5[label="b>10"]
+	n6[label="endDo0"]
+	n7[label="a:=a+b"]
+	n8[label="a:=a-a"]
+	n9[label="b:=b+b"]
+	n10[label="a>b"]
+	n11[label="endIf0"]
+	n12[label="a>1"]
+	n13[label="endIf1"]
+	n14[label="a:=0"]
+
+	inic->n0;
+	n0->n1 [label="next"];
+	n1->n12 [label="next"];
+	n12->n2 [label="ifTrue"];
+	n12->n7 [label="ifFalse"];
+	n2->n3 [label="next"];
+	n3->n4 [label="next"];
+	n4->n5 [label="exp"];
+	n5->n6 [label="ifFalse"];
+	n5->n3 [label="ifTrue"];
+	n6->n13 [label="next"];
+	n13->n14 [label="next"];
+	n7->n10 [label="next"];
+	n10->n8 [label="ifTrue"];
+	n10->n9 [label="ifFalse"];
+	n8->n11 [label="next"];
+	n11->n13 [label="next"];
+	n9->n11 [label="next"];
 }
