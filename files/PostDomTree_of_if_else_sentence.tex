@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+\enlargethispage{100cm}
+% Start of code
+\begin{tikzpicture}[>=latex',line join=bevel,]
+%%
+\node (inic) at (106.5bp,635.08bp) [draw,circle, fill] {};
+  \node (n8) at (106.5bp,427.5bp) [draw,ellipse] {id:=id+id2};
+  \node (n9) at (106.5bp,502.0bp) [draw,ellipse] {id2:=4};
+  \node (exit) at (106.5bp,575.5bp) [draw,ellipse] {exit};
+  \node (entry) at (35.5bp,21.0bp) [draw,circle, double] {entry};
+  \node (n0) at (35.5bp,106.0bp) [draw,ellipse] {id:=1};
+  \node (n1) at (35.5bp,191.5bp) [draw,ellipse] {id:=id+id};
+  \node (n2) at (174.5bp,191.5bp) [draw,circle, double] {id:=0};
+  \node (n3) at (174.5bp,278.0bp) [draw,ellipse] {id2:=1};
+  \node (n4) at (110.5bp,191.5bp) [draw,circle, double] {id:=2};
+  \node (n5) at (106.5bp,278.0bp) [draw,ellipse] {id2:=3};
+  \node (n6) at (42.5bp,278.0bp) [draw,ellipse] {id>1};
+  \node (n7) at (106.5bp,353.0bp) [draw,ellipse] {endIf0};
+  \draw [->] (n6) ..controls (40.558bp,253.56bp) and (38.564bp,229.48bp)  .. (n1);
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (56.5bp,240.0bp) node {child};
+  \draw [->] (n7) ..controls (106.5bp,331.74bp) and (106.5bp,313.02bp)  .. (n5);
+  \draw (122.5bp,316.0bp) node {child};
+  \draw [->] (n8) ..controls (106.5bp,405.62bp) and (106.5bp,387.24bp)  .. (n7);
+  \draw (122.5bp,390.0bp) node {child};
+  \draw [->] (n1) ..controls (35.5bp,167.64bp) and (35.5bp,143.33bp)  .. (n0);
+  \draw (51.5bp,143.0bp) node {child};
+  \draw [->] (n5) ..controls (107.43bp,257.27bp) and (108.3bp,238.92bp)  .. (n4);
+  \draw (125.5bp,240.0bp) node {child};
+  \draw [->] (n0) ..controls (35.5bp,85.375bp) and (35.5bp,67.833bp)  .. (entry);
+  \draw (51.5bp,69.0bp) node {child};
+  \draw [->] (n7) ..controls (125.99bp,339.37bp) and (135.34bp,332.42bp)  .. (142.5bp,325.0bp) .. controls (150.72bp,316.48bp) and (158.36bp,305.66bp)  .. (n3);
+  \draw (173.5bp,316.0bp) node {child};
+  \draw [->] (inic) ..controls (106.5bp,614.16bp) and (106.5bp,604.05bp)  .. (exit);
+  \draw [->] (n3) ..controls (174.5bp,257.44bp) and (174.5bp,239.51bp)  .. (n2);
+  \draw (190.5bp,240.0bp) node {child};
+  \draw [->] (n7) ..controls (86.503bp,339.37bp) and (77.326bp,332.52bp)  .. (70.5bp,325.0bp) .. controls (63.195bp,316.95bp) and (56.751bp,306.73bp)  .. (n6);
+  \draw (86.5bp,316.0bp) node {child};
+  \draw [->] (exit) ..controls (106.5bp,555.02bp) and (106.5bp,536.59bp)  .. (n9);
+  \draw (122.5bp,539.0bp) node {child};
+  \draw [->] (n9) ..controls (106.5bp,480.99bp) and (106.5bp,462.69bp)  .. (n8);
+  \draw (122.5bp,465.0bp) node {child};
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+

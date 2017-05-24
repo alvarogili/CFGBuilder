@@ -34,12 +34,14 @@ Grammar  ::= Statement:s Grammar:g
                     {:
                         Node newNode = (Node) s;
                         Node lastNode = newNode.getLast();
-                        lastNode.addNexts("next", (Node) g);
+                        Node grammarNode = (Node) g;
+                        grammarNode.addPrevious(lastNode);
+                        lastNode.addNexts("next", grammarNode);
                         RESULT = newNode;
                     :}  
                 | Statement:s 
                     {:      
-                        Node newNode = (Node) s;                        
+                        Node newNode = (Node) s;
                         RESULT = newNode;
                     :}
                 ;
@@ -51,10 +53,12 @@ Statement   ::= Assignment:a
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s1 RBRACE ELSESYM LBRACE Grammar:s2 RBRACE
                     {:                         
-                        Node exp = new Node(parser.getNodeName(), (String)e);
+                        Node exp = new Node(parser.getNodeName(), (String)e);                        
                         parser.nodeList.add(exp);
                         Node ifTrue = (Node) s1;
                         Node ifFalse = (Node) s2;
+                        ifTrue.addPrevious(exp);
+                        ifFalse.addPrevious(exp);
                         exp.addNexts("ifTrue", ifTrue);
                         exp.addNexts("ifFalse", ifFalse);
 
@@ -67,6 +71,8 @@ Statement   ::= Assignment:a
 
                         Node lastNodeIfFalse = ifFalse.getLast();
                         lastNodeIfFalse.addNexts("next", endIf);
+                        endIf.addPrevious(lastNodeIfTrue);
+                        endIf.addPrevious(lastNodeIfFalse);
                         RESULT = exp;
                     :}
                 |   IFSYM LPAREN Expression:e RPAREN THENSYM LBRACE Grammar:s RBRACE
@@ -75,6 +81,7 @@ Statement   ::= Assignment:a
                         parser.nodeList.add(exp);
                         Node ifTrue = (Node) s;
                         exp.addNexts("ifTrue", ifTrue);
+                        ifTrue.addPrevious(exp);
 
                         Node endIf = new Node(parser.getNodeName(), "endIf" + parser.endIfCounter);
                         parser.nodeList.add(endIf);
@@ -82,7 +89,8 @@ Statement   ::= Assignment:a
 
                         Node lastNodeIfTrue = ifTrue.getLast();
                         lastNodeIfTrue.addNexts("next", endIf);
-
+                        endIf.addPrevious(lastNodeIfTrue);
+                        endIf.addPrevious(exp);
                         exp.addNexts("ifFalse", endIf);
                         RESULT = exp;
                     :}
@@ -99,6 +107,8 @@ Statement   ::= Assignment:a
                         parser.nodeList.add(endDo);
                         exp.addNexts("ifFalse", endDo);
                         exp.addNexts("ifTrue", doBody);
+                        exp.addPrevious(lastDoBody);
+                        endDo.addPrevious(lastDoBody);
                         RESULT = doBody;
                     :}
                 ;

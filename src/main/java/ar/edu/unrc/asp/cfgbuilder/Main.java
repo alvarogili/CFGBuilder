@@ -18,7 +18,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, Exception {
-         System.out.println("\nAnálisis Estatico Programas");
+        System.out.println("\nAnálisis Estatico Programas");
         System.out.println("Proyecto Potenciar Graduación");
         Utilities utilities = new Utilities();
         Scanner reader = new Scanner(System.in);
@@ -27,25 +27,30 @@ public class Main {
 
             String i = reader.next();
 
-            if (null != i) switch (i) {
-                case "1":
-                    utilities.generateCFGBuilder(reader);
-                    break;
-                case "0":
-                    reader.close();
-                    return;
-                default:
-                    printHelp();
-                    break;
+            if (null != i) {
+                switch (i) {
+                    case "1":
+                        utilities.readSource(reader);
+                        break;
+                    case "2":
+                        utilities.operations(reader);
+                        break;
+                    case "0":
+                        reader.close();
+                        return;
+                    default:
+                        printHelp();
+                        break;
+                }
             }
         } while (true);
-            }
+    }
 
     private static void printHelp() {
         System.out.println("\nElija una opción:");
-        System.out.println("\t1: para trabajar con CFGs");
-        //System.out.println("\t2: para ");
+        System.out.println("\t1: Para procesar archivo con código fuente");
+        System.out.println("\t2: Para realizar operaciones sobre el código fuente ingresado");
         System.out.println("\t0: para salir");
-    }            
+    }
 
 }

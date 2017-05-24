@@ -1,9 +1,0 @@
-digraph{
-	inic[shape=point];
-
-	n0[label="id:=1"]
-	n1[label="id:=id+id"]
-
-	inic->n0;
-	n0->n1 [label="next"];
-}

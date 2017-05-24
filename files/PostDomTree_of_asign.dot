@@ -1,0 +1,14 @@
+digraph{
+	inic[shape=point];
+
+	exit[label="exit"]
+	n1[label="id:=id+id"]
+	n0[label="id:=1"]
+	entry[label="entry"]
+
+	inic->exit;
+	exit->n1 [label="child"];
+	n1->n0 [label="child"];
+	n0->entry [label="child"];
+	entry[shape=doublecircle];
+}
