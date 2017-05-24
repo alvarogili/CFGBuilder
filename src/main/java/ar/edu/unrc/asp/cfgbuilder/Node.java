@@ -2,6 +2,7 @@ package ar.edu.unrc.asp.cfgbuilder;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Nodo genérico
@@ -17,9 +18,13 @@ public class Node implements Comparable<Node>{
     ///Nodos siguientes, donde la clave representa el label
     private List<Next> nexts = new LinkedList<>();
     
+    private List<Node> previous = new LinkedList<>();
+    
     private boolean printed = false;
 
-    private boolean end = false;
+    private boolean end = true;
+    
+    private boolean start = false;
 
     public Node() {
     }
@@ -28,6 +33,14 @@ public class Node implements Comparable<Node>{
         this.name = name;
         this.label = label;
     }
+
+    public boolean isStart() {
+        return start;
+    }
+
+    public void setStart(boolean start) {
+        this.start = start;
+    }        
 
     public String getName() {
         return name;
@@ -52,6 +65,14 @@ public class Node implements Comparable<Node>{
     public void setNexts(List<Next> nexts) {
         this.nexts = nexts;
     }
+
+    public List<Node> getPrevious() {
+        return previous;
+    }
+
+    public void addPrevious(Node previous) {
+        this.previous.add(previous);
+    }        
 
     public boolean isPrinted() {
         return printed;
@@ -86,7 +107,7 @@ public class Node implements Comparable<Node>{
 
         Next next = new Next(label, node);
         nexts.add(next);
-
+        end = false;
     }
 
     public boolean isEnd() {
@@ -153,6 +174,22 @@ public class Node implements Comparable<Node>{
         }
         return result;
     }
+    
+     /**
+     * Genera las relaciones para el archivo dot entre el nodo y sus padres
+     *
+     * @return un string en formato dot
+     */
+    public String generatePreviousRelations() {
+        String result = "";
+        for (Node n : previous) {
+            result += "\t" + getName() + "->" + n.getName() + " [label=\"previous\"];\n";
+        }
+//        if (previous.isEmpty()) {
+//            result += "\t" + getName() + "[shape=doublecircle];\n";
+//        }
+        return result;
+    }
 
     @Override
     public int compareTo(Node o) {
@@ -171,4 +208,18 @@ public class Node implements Comparable<Node>{
             return getNexts().get(0).getNode().getLast();
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return name.equals(((Node)obj).name);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+    
+    
 }

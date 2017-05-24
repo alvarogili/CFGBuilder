@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage[x11names, rgb]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{snakes,arrows,shapes}
+\usepackage{amsmath}
+%
+%
+
+%
+
+%
+
+\begin{document}
+\pagestyle{empty}
+%
+%
+%
+
+\enlargethispage{100cm}
+% Start of code
+\begin{tikzpicture}[>=latex',line join=bevel,]
+%%
+\node (n0) at (44.196bp,212.1bp) [draw,ellipse] {id:=1};
+  \node (entry) at (44.196bp,299.1bp) [draw,ellipse] {entry};
+  \node (exit) at (44.196bp,28.048bp) [draw,circle, double] {exit};
+  \node (inic) at (44.196bp,355.9bp) [draw,circle, fill] {};
+  \node (n1) at (44.196bp,125.1bp) [draw,ellipse] {id:=id+id};
+  \draw [->] (n0) ..controls (44.196bp,182.26bp) and (44.196bp,166.64bp)  .. (n1);
+  \definecolor{strokecol}{rgb}{0.0,0.0,0.0};
+  \pgfsetstrokecolor{strokecol}
+  \draw (56.196bp,168.6bp) node {next};
+  \draw [->] (inic) ..controls (44.196bp,350.58bp) and (44.196bp,338.82bp)  .. (entry);
+  \draw [->] (entry) ..controls (44.196bp,269.26bp) and (44.196bp,253.64bp)  .. (n0);
+  \draw (56.196bp,255.6bp) node {next};
+  \draw [->] (n1) ..controls (44.196bp,95.473bp) and (44.196bp,80.504bp)  .. (exit);
+  \draw (56.196bp,81.596bp) node {next};
+%
+\end{tikzpicture}
+% End of code
+
+%
+\end{document}
+%
+
+
+
