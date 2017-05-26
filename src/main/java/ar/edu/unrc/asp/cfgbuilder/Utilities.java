@@ -56,15 +56,16 @@ public class Utilities {
             printHelp();
             String i = reader.next();
 
+            Graph graph = new Graph();
+            graph.setStartNode(startNode);
+            graph.setNodeList(nodeList);
+
             if ("1".equals(i)) {
                 File outputFile = new File(file.getParent(), "CFGBuilder_of_" + file.getName() + ".dot");
                 try {
-                    CFG cfg = new CFG();
-                    cfg.setStartNode(startNode);
-                    cfg.setNodeList(nodeList);
 
                     CFGBuilder cFGBuilder = new CFGBuilder();
-                    cFGBuilder.setCFG(cfg);
+                    cFGBuilder.setCFG((CFG) graph);
                     cFGBuilder.generateDotFile(outputFile);
                     System.out.println("\nCFG Builder guardado en " + outputFile.getAbsolutePath());
                 } catch (IOException ex) {
@@ -72,11 +73,12 @@ public class Utilities {
                 }
 
             } else if ("2".equals(i) || "3".equals(i)) {
-                Graph graph = new Graph();
-                graph.setStartNode(startNode);
-                graph.setNodeList(nodeList);
+
                 PDTBuilder pDTBuilder = new PDTBuilder(graph, file);
                 pDTBuilder.processOperations(i);
+            } else if ("4".equals(i)) {
+                CDGBuilder cDGBuilder = new CDGBuilder(graph);
+                cDGBuilder.generateCDG();
             } else if ("0".equals(i)) {
                 break;
             }
@@ -89,6 +91,7 @@ public class Utilities {
         System.out.println("\t1: generar un archivo .dot con el CFGBuilder");
         System.out.println("\t2: Calcular Postdominators");
         System.out.println("\t3: generar un archivo .dot con el PostDominator Tree");
+        System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
         System.out.println("\t0: Para regresar al menú principal");
     }
 }
