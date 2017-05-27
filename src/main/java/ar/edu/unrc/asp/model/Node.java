@@ -1,4 +1,4 @@
-package ar.edu.unrc.asp.cfgbuilder;
+package ar.edu.unrc.asp.model;
 
 import java.util.LinkedList;
 import java.util.List;

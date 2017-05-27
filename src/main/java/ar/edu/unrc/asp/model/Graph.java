@@ -5,7 +5,6 @@
  */
 package ar.edu.unrc.asp.model;
 
-import ar.edu.unrc.asp.cfgbuilder.Node;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.List;
 import java.util.LinkedList;
 import ar.edu.unrc.asp.cfgbuilder.CFGBuilder;
-import ar.edu.unrc.asp.cfgbuilder.Node;
+import ar.edu.unrc.asp.model.Node;
 
 /** CUP v0.11a beta 20060608 generated parser.
   * @version Thu May 11 12:08:37 ART 2017

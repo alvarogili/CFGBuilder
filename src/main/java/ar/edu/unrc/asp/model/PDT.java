@@ -5,8 +5,6 @@
  */
 package ar.edu.unrc.asp.model;
 
-import ar.edu.unrc.asp.cfgbuilder.Node;
-
 /**
  * PostDominator Tree
  * @author agili

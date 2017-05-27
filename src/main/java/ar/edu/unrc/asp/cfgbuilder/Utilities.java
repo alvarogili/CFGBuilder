@@ -1,14 +1,17 @@
 package ar.edu.unrc.asp.cfgbuilder;
 
+import ar.edu.unrc.asp.model.Node;
 import ar.edu.unrc.asp.cfgbuilder.parser.LexicalParser;
 import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
 import ar.edu.unrc.asp.model.CFG;
 import ar.edu.unrc.asp.model.Graph;
 import ar.edu.unrc.asp.model.PDT;
+import ar.edu.unrc.asp.model.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 import java_cup.runtime.Symbol;
@@ -51,7 +54,7 @@ public class Utilities {
         }
     }
 
-    public void operations(Scanner reader) {
+    public void operations(Scanner reader) throws IOException {
         while (true) {
             printHelp();
             String i = reader.next();
@@ -93,5 +96,5 @@ public class Utilities {
         System.out.println("\t3: generar un archivo .dot con el PostDominator Tree");
         System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
         System.out.println("\t0: Para regresar al menú principal");
-    }
+    }       
 }
