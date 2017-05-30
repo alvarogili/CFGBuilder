@@ -13,6 +13,7 @@ public class Pair {
     
     private Node A;
     private Node B;
+    private Node ancestor;
 
     public Pair(Node A, Node B) {
         this.A = A;
@@ -34,6 +35,13 @@ public class Pair {
     public void setB(Node B) {
         this.B = B;
     }
-    
-    
+
+    public Node getAncestor() {
+        return ancestor;
+    }
+
+    public void setAncestor(Node ancestor) {
+        this.ancestor = ancestor;
+    }
+        
 }

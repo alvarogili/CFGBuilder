@@ -155,6 +155,7 @@ public class PDTBuilder extends Builder{
 
         //3. for each node n in N do D(n) =D(n)−n enddo;
         Map<String, List<Node>> postdominators = calculatePostDominators();
+        pdt.setPostdominators(postdominators);
         //borro cada n de su D(n)
         for(String key: postdominators.keySet()){
             List<Node> list = postdominators.get(key);

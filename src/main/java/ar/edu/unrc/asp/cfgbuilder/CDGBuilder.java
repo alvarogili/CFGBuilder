@@ -12,6 +12,7 @@ import ar.edu.unrc.asp.model.Pair;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -47,6 +48,7 @@ public class CDGBuilder extends Builder {
         List<Pair> pairs = generatePairs(pdt.getNodeList());
         
         //paso 3.b
+        generateAncestors(pairs, pdt);
     }
 
     /**
@@ -75,6 +77,27 @@ public class CDGBuilder extends Builder {
             }
         }
         return pairs;
+    }
+
+    /**
+     * Obtiene los ansenstros comunes mas proximos del par
+     * @param pairs
+     * @return 
+     */
+    protected void generateAncestors(List<Pair> pairs, PDT pdt) {
+        for(Pair pair: pairs){
+            Node A = pair.getA();
+            Node B = pair.getB();
+            List<Node> postDomA = pdt.getPostdominators().get(A.getName());
+            List<Node> postDomB = pdt.getPostdominators().get(B.getName());
+            for(Node n: postDomA){
+                //como se que están ordenados, el primero de A que encuentre en
+                //B es el primer ansestro comun
+                if(postDomB.contains(n)){
+                    pair.setAncestor(n);
+                }
+            }
+        }
     }
 
 }

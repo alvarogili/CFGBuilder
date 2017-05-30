@@ -5,12 +5,16 @@
  */
 package ar.edu.unrc.asp.model;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * PostDominator Tree
  * @author agili
  */
 public class PDT extends Graph{
     
+    Map<String, List<Node>> postdominators;
 
     public PDT() {
     }        
@@ -23,4 +27,12 @@ public class PDT extends Graph{
         }
         return null;
     }
+
+    public Map<String, List<Node>> getPostdominators() {
+        return postdominators;
+    }
+
+    public void setPostdominators(Map<String, List<Node>> postdominators) {
+        this.postdominators = postdominators;
+    }        
 }
