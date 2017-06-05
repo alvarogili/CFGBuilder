@@ -5,6 +5,8 @@
  */
 package ar.edu.unrc.asp.model;
 
+import java.util.Objects;
+
 /**
  * Representa un par de nodos
  * @author agili
@@ -43,5 +45,22 @@ public class Pair {
     public void setAncestor(Node ancestor) {
         this.ancestor = ancestor;
     }
+
+    @Override
+    public String toString() {
+        return "{"+A.getName()+"},{"+B.getName()+"}";
+    }
         
+    @Override
+    public boolean equals(Object obj) {
+        return toString().equals(obj.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.A);
+        hash = 97 * hash + Objects.hashCode(this.B);
+        return hash;
+    }
 }
