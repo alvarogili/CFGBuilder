@@ -36,6 +36,7 @@ public class CDGBuilder extends Builder {
         // paso 1
         Node startNode = new Node("start", "start");
 
+        start tiene que seguir a exit
         Node oldStartNode = graph.getStartNode();
         startNode.addNexts("next", oldStartNode);
         oldStartNode.addPrevious(startNode);
@@ -60,8 +61,8 @@ public class CDGBuilder extends Builder {
             if(!p.getB().equals(p.getAncestor())){
                 pairs.remove(p);
             }
-        }
-        return null;
+        }        
+        return buildCDG(pairs);
     }
 
     /**
@@ -116,6 +117,12 @@ public class CDGBuilder extends Builder {
                 }
             }
         }
+    }
+
+    private Graph buildCDG(List<Pair> pairs) {
+        Graph cdg = new Graph();
+        Node start = pairs.get(0).getA();
+        return cdg;
     }
 
 }
