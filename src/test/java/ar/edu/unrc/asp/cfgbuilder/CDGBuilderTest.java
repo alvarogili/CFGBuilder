@@ -93,7 +93,7 @@ public class CDGBuilderTest {
         pairs.add(p);
 
         CDGBuilder instance = new CDGBuilder(pdt);
-        instance.generateAncestors(pairs, pdt);
+        instance.generateAncestors(pairs, pdt.getPostdominators());
         assertEquals("d", p.getAncestor().getName());
     }
     

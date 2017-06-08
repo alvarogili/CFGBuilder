@@ -36,7 +36,6 @@ public class CDGBuilder extends Builder {
         // paso 1
         Node startNode = new Node("start", "start");
 
-        start tiene que seguir a exit
         Node oldStartNode = graph.getStartNode();
         startNode.addNexts("next", oldStartNode);
         oldStartNode.addPrevious(startNode);
@@ -45,24 +44,25 @@ public class CDGBuilder extends Builder {
 
         Node endNode = graph.getEndNode();
         endNode.addPrevious(startNode);
+        startNode.addNexts("next", endNode);
 
         //paso 2
         PDTBuilder pDTBuilder = new PDTBuilder(graph, null);
-        PDT pdt = pDTBuilder.generatePostDomTree();
 
         //paso 3.a
-        List<Pair> pairs = generatePairs(pdt.getNodeList());
+        List<Pair> pairs = generatePairs(graph.getNodeList());
 
         //paso 3.b
-        generateAncestors(pairs, pdt);
+        generateAncestors(pairs, pDTBuilder.calculatePostDominators());
         
+        List<Pair> pairsForCDG = new LinkedList<>();
         //paso 3.c
         for(Pair p: pairs){
-            if(!p.getB().equals(p.getAncestor())){
-                pairs.remove(p);
+            if(p.getA().equals(p.getAncestor())){
+                pairsForCDG.add(p);
             }
         }        
-        return buildCDG(pairs);
+        return buildCDG(pairsForCDG);
     }
 
     /**
@@ -101,14 +101,14 @@ public class CDGBuilder extends Builder {
      * Obtiene los ansenstros comunes mas proximos del par
      *
      * @param pairs
-     * @param pdt
+     * @param postdominatos
      */
-    protected void generateAncestors(List<Pair> pairs, PDT pdt) {
+    protected void generateAncestors(List<Pair> pairs,  Map<String,List<Node>> postdominatos) {
         for (Pair pair : pairs) {
             Node A = pair.getA();
             Node B = pair.getB();
-            List<Node> postDomA = pdt.getPostdominators().get(A.getName());
-            List<Node> postDomB = pdt.getPostdominators().get(B.getName());
+            List<Node> postDomA = postdominatos.get(A.getName());
+            List<Node> postDomB = postdominatos.get(B.getName());
             for (Node n : postDomA) {
                 //como se que están ordenados, el primero de A que encuentre en
                 //B es el primer ansestro comun
