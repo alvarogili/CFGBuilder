@@ -5,6 +5,7 @@
  */
 package ar.edu.unrc.asp.cfgbuilder;
 
+import ar.edu.unrc.asp.model.Constants;
 import ar.edu.unrc.asp.model.Node;
 import ar.edu.unrc.asp.model.Graph;
 import ar.edu.unrc.asp.model.PDT;
@@ -34,17 +35,17 @@ public class CDGBuilder extends Builder {
     public Graph generateCDG() throws IOException {
 
         // paso 1
-        Node startNode = new Node("start", "start");
+        Node startNode = new Node(Constants.START, Constants.START);
 
         Node oldStartNode = graph.getStartNode();
-        startNode.addNexts("next", oldStartNode);
+        startNode.addNexts(Constants.NEXT, oldStartNode);
         oldStartNode.addPrevious(startNode);
         graph.setStartNode(startNode);
         graph.getNodeList().add(0, startNode);
 
         Node endNode = graph.getEndNode();
         endNode.addPrevious(startNode);
-        startNode.addNexts("next", endNode);
+        startNode.addNexts(Constants.NEXT, endNode);
 
         //paso 2
         PDTBuilder pDTBuilder = new PDTBuilder(graph, null);
@@ -121,8 +122,39 @@ public class CDGBuilder extends Builder {
 
     private Graph buildCDG(List<Pair> pairs) {
         Graph cdg = new Graph();
-        Node start = pairs.get(0).getA();
+        Pair startPair = getPairWithStart(pairs);
+        Node a = startPair.getA();
+        Node b = startPair.getB();
+        a.addNexts(Constants.NEXT, b);
+        b.addPrevious(a);
+        cdg.setStartNode(a);
+        cdg.addNodeToList(a);
+        cdg.addNodeToList(b);
+        for(Pair p: pairs){
+            a = p.getA();
+            b = p.getB();
+            int indexA = cdg.getNodeList().indexOf(a);
+            int indexB = cdg.getNodeList().indexOf(b);
+            if(indexA > -1){
+                a = cdg.getNodeList().get(indexA);
+            }
+            if(indexB > -1){
+                b = cdg.getNodeList().get(indexB);
+            }
+        }
         return cdg;
     }
 
+    
+    private Pair getPairWithStart(List<Pair> pairs){
+        Pair result = null;
+        for(Pair p: pairs){
+            if(p.getA().getName().equals(Constants.START)){
+                result = p;
+                pairs.remove(p);
+                break;
+            }
+        }
+        return result;
+    }
 }

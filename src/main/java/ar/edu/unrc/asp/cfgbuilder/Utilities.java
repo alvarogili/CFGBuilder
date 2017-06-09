@@ -4,6 +4,7 @@ import ar.edu.unrc.asp.model.Node;
 import ar.edu.unrc.asp.cfgbuilder.parser.LexicalParser;
 import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
 import ar.edu.unrc.asp.model.CFG;
+import ar.edu.unrc.asp.model.Constants;
 import ar.edu.unrc.asp.model.Graph;
 import ar.edu.unrc.asp.model.PDT;
 import ar.edu.unrc.asp.model.Pair;
@@ -39,7 +40,7 @@ public class Utilities {
             startNode = new Node("entry", "entry");
             Node n0 = (Node) s.value;
 
-            startNode.addNexts("next", n0);
+            startNode.addNexts(Constants.NEXT, n0);
             n0.addPrevious(startNode);
             nodeList = parser.nodeList;
             nodeList.add(0, startNode);
