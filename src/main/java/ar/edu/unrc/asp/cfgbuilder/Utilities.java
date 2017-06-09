@@ -83,6 +83,8 @@ public class Utilities {
             } else if ("4".equals(i)) {
                 CDGBuilder cDGBuilder = new CDGBuilder(graph);
                 cDGBuilder.generateCDG();
+                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
+                cDGBuilder.generateDotFile(file, graph);
             } else if ("0".equals(i)) {
                 break;
             }

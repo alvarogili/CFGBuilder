@@ -123,16 +123,16 @@ public class CDGBuilder extends Builder {
     private Graph buildCDG(List<Pair> pairs) {
         Graph cdg = new Graph();
         Pair startPair = getPairWithStart(pairs);
-        Node a = startPair.getA();
-        Node b = startPair.getB();
+        Node a = new Node(startPair.getA().getName(), startPair.getA().getLabel());
+        Node b = new Node(startPair.getB().getName(), startPair.getB().getLabel());
         a.addNexts(Constants.NEXT, b);
         b.addPrevious(a);
         cdg.setStartNode(a);
         cdg.addNodeToList(a);
         cdg.addNodeToList(b);
         for(Pair p: pairs){
-            a = p.getA();
-            b = p.getB();
+            a = new Node(p.getA().getName(), p.getA().getLabel());
+            b = new Node(p.getB().getName(), p.getB().getLabel());
             int indexA = cdg.getNodeList().indexOf(a);
             int indexB = cdg.getNodeList().indexOf(b);
             if(indexA > -1){
@@ -140,6 +140,14 @@ public class CDGBuilder extends Builder {
             }
             if(indexB > -1){
                 b = cdg.getNodeList().get(indexB);
+            }
+            a.addNexts(Constants.NEXT, b);
+            b.addPrevious(a);
+            if (indexA == -1) {
+                cdg.getNodeList().add(a);
+            }
+            if (indexB == -1) {
+                cdg.getNodeList().add(b);
             }
         }
         return cdg;
