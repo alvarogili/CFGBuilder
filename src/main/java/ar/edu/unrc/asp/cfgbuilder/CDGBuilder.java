@@ -39,22 +39,23 @@ public class CDGBuilder extends Builder {
 
         Node oldStartNode = graph.getStartNode();
         startNode.addNexts(Constants.NEXT, oldStartNode);
-        oldStartNode.addPrevious(startNode);
-        graph.setStartNode(startNode);
-        graph.getNodeList().add(0, startNode);
+        oldStartNode.addPrevious(startNode);        
 
         Node endNode = graph.getEndNode();
         endNode.addPrevious(startNode);
         startNode.addNexts(Constants.NEXT, endNode);
+        graph.setStartNode(startNode);
+        graph.getNodeList().add(0, startNode);
 
         //paso 2
         PDTBuilder pDTBuilder = new PDTBuilder(graph, null);
 
         //paso 3.a
-        List<Pair> pairs = generatePairs(graph.getNodeList());
+        List<Pair> pairs = generatePairs(graph.getNodeList());                
 
         //paso 3.b
-        generateAncestors(pairs, pDTBuilder.calculatePostDominators());
+        generateAncestors(pairs, pDTBuilder.calculatePostDominators());    
+        //pDTBuilder.printNodesMap(pDTBuilder.calculatePostDominators());
         
         List<Pair> pairsForCDG = new LinkedList<>();
         //paso 3.c
@@ -164,5 +165,11 @@ public class CDGBuilder extends Builder {
             }
         }
         return result;
+    }
+
+    private void printPairs(List<Pair> pairs) {
+        for(Pair p: pairs){
+        System.out.println(p.getA().getName() + " - " + p.getB().getName() + " - Ans: " + p.getAncestor().getName());
+        }
     }
 }
