@@ -84,7 +84,9 @@ public class Utilities {
                 CDGBuilder cDGBuilder = new CDGBuilder(graph);
                 cDGBuilder.generateCDG();
                 File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
-                cDGBuilder.generateDotFile(file, graph);
+                cDGBuilder.generateDotFile(outputFile, graph);
+            }else if("5".equals(i)){
+                DataFlowUtilities dataFlowUtilities = new DataFlowUtilities(graph);
             } else if ("0".equals(i)) {
                 break;
             }
@@ -98,6 +100,7 @@ public class Utilities {
         System.out.println("\t2: Calcular Postdominators");
         System.out.println("\t3: generar un archivo .dot con el PostDominator Tree");
         System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
+        System.out.println("\t5: ejecutar el algoritmo \"ReachingDefs\"");
         System.out.println("\t0: Para regresar al menú principal");
     }       
 }
