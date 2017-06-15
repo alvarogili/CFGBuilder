@@ -15,6 +15,8 @@ public class Node implements Comparable<Node>{
     private String name;
     //Expresión a la que representa el nodo
     private String label;
+    ///posicion
+    private Integer position;
     ///Nodos siguientes, donde la clave representa el label
     private List<Next> nexts = new LinkedList<>();
     
@@ -56,6 +58,14 @@ public class Node implements Comparable<Node>{
 
     public void setLabel(String label) {
         this.label = label;
+    }   
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Integer getPosition() {
+        return position;
     }        
 
     public List<Next> getNexts() {
