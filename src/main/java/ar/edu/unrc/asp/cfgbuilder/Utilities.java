@@ -32,6 +32,10 @@ public class Utilities {
         String filePath = reader.next();
         file = new File(filePath);
 
+        parseFile(file);
+    }
+    
+    public void parseFile(File file){
         try {
             java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(file));
             Parser parser = new Parser(scanner);
@@ -48,10 +52,8 @@ public class Utilities {
             System.out.println("\nArchivo procesado correctamente.");
         } catch (FileNotFoundException ex) {
             System.out.println("\nArchivo no encontrado: " + ex.getLocalizedMessage());
-            return;
         } catch (Exception ex) {
             System.out.println("\nError ejecutando el parser: " + ex.getLocalizedMessage());
-            return;
         }
     }
 
@@ -102,5 +104,14 @@ public class Utilities {
         System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
         System.out.println("\t5: ejecutar el algoritmo \"ReachingDefs\"");
         System.out.println("\t0: Para regresar al menú principal");
-    }       
+    }    
+
+    public List<Node> getNodeList() {
+        return nodeList;
+    }
+
+    public Node getStartNode() {
+        return startNode;
+    }
+        
 }
