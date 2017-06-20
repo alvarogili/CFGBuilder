@@ -186,6 +186,7 @@ public class PDTBuilder extends Builder{
                         Node mInPdt = pdt.getNodeFromList(m.getName());
                         Node nForPdt = new Node(n.getName(), n.getLabel());
                         mInPdt.addNexts("child", nForPdt);
+                        nForPdt.addPrevious(mInPdt);
                         pdt.addNodeToList(nForPdt);
                         Q.add(n);
                     }

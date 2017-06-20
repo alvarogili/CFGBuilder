@@ -2,6 +2,8 @@ package ar.edu.unrc.asp.cfgbuilder;
 
 import ar.edu.unrc.asp.cfgbuilder.parser.LexicalParser;
 import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
+import ar.edu.unrc.asp.model.CFG;
+import ar.edu.unrc.asp.model.Graph;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,29 +23,35 @@ public class Main {
         System.out.println("\nAnálisis Estatico Programas");
         System.out.println("Proyecto Potenciar Graduación");
         Utilities utilities = new Utilities();
-        Scanner reader = new Scanner(System.in);
-        do {
-            printHelp();
-
-            String i = reader.next();
-
-            if (null != i) {
-                switch (i) {
-                    case "1":
-                        utilities.readSource(reader);
-                        break;
-                    case "2":
-                        utilities.operations(reader);
-                        break;
-                    case "0":
-                        reader.close();
-                        return;
-                    default:
-                        printHelp();
-                        break;
-                }
-            }
-        } while (true);
+//        Scanner reader = new Scanner(System.in);
+//        do {
+//            printHelp();
+//
+//            String i = reader.next();
+//
+//            if (null != i) {
+//                switch (i) {
+//                    case "1":
+//                        utilities.readSource(reader);
+//                        break;
+//                    case "2":
+//                        utilities.operations(reader);
+//                        break;
+//                    case "0":
+//                        reader.close();
+//                        return;
+//                    default:
+//                        printHelp();
+//                        break;
+//                }
+//            }
+//        } while (true);
+utilities.parseFile(new File("files/sources/if_sentence"));
+Graph graph = new Graph();
+            graph.setStartNode(utilities.getStartNode());
+            graph.setNodeList(utilities.getNodeList());
+CDGBuilder cDGBuilder = new CDGBuilder(graph);
+                cDGBuilder.generateCDG();
     }
 
     private static void printHelp() {

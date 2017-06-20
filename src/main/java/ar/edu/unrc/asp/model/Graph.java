@@ -70,4 +70,13 @@ public class Graph {
         }
         return last;
     }
+    
+    public Node getNodeFromList(String name){
+        for(Node n:getNodeList()){
+            if(n.getName().equals(name)){
+                return n;               
+            }
+        }
+        return null;
+    }
 }

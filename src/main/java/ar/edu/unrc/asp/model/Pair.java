@@ -15,7 +15,7 @@ public class Pair {
     
     private Node A;
     private Node B;
-    private Node ancestor;
+    private Node L;
 
     public Pair(Node A, Node B) {
         this.A = A;
@@ -38,12 +38,12 @@ public class Pair {
         this.B = B;
     }
 
-    public Node getAncestor() {
-        return ancestor;
+    public Node getL() {
+        return L;
     }
 
-    public void setAncestor(Node ancestor) {
-        this.ancestor = ancestor;
+    public void setL(Node L) {
+        this.L = L;
     }
 
     @Override
