@@ -46,12 +46,15 @@ public class Main {
 //                }
 //            }
 //        } while (true);
-utilities.parseFile(new File("files/sources/if_sentence"));
-Graph graph = new Graph();
-            graph.setStartNode(utilities.getStartNode());
-            graph.setNodeList(utilities.getNodeList());
-CDGBuilder cDGBuilder = new CDGBuilder(graph);
-                cDGBuilder.generateCDG();
+        utilities.parseFile(new File("files/sources/if_sentence"));
+        Graph graph = new Graph();
+        graph.setStartNode(utilities.getStartNode());
+        graph.setNodeList(utilities.getNodeList());
+        DataFlowUtilities dataFlowUtilities = new DataFlowUtilities(graph);
+        System.out.println("Node list: ");
+        utilities.printNodes(utilities.getNodeList());
+        System.out.println("\n\n\nGEN list: ");
+        utilities.printMapStringString(dataFlowUtilities.calculateGen(utilities.getNodeList()));
     }
 
     private static void printHelp() {

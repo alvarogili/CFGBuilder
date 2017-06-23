@@ -50,11 +50,10 @@ public class CDGBuilder extends Builder {
         startNode.addNexts(Constants.NEXT, endNode);
         cfg.setStartNode(startNode);
         cfg.getNodeList().add(0, startNode);
-
+        
         //paso 2
         PDTBuilder pDTBuilder = new PDTBuilder(cfg, null);
         PDT pdt = pDTBuilder.generatePostDomTree();
-        pDTBuilder.generateDotFile(new File("files/temp.dot"), pdt);
 
         //paso 3.a
         List<Pair> pairs = generatePairs(cfg, pdt);
@@ -105,7 +104,7 @@ public class CDGBuilder extends Builder {
             Node A = pair.getA();            
             Node B = pair.getB();
             Node L = getCommonAnsestor(A, B);
-            no funciona, el start no queda como cabeza del PDT
+//            no funciona, el start no queda como cabeza del PDT
 //            List<Node> postDomA = postdominatos.get(A.getName());
 //            List<Node> postDomB = postdominatos.get(B.getName());
 //            for (Node n : postDomA) {

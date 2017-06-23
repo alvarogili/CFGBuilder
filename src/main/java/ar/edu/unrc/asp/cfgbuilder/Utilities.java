@@ -6,14 +6,12 @@ import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
 import ar.edu.unrc.asp.model.CFG;
 import ar.edu.unrc.asp.model.Constants;
 import ar.edu.unrc.asp.model.Graph;
-import ar.edu.unrc.asp.model.PDT;
-import ar.edu.unrc.asp.model.Pair;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java_cup.runtime.Symbol;
 
@@ -114,4 +112,15 @@ public class Utilities {
         return startNode;
     }
         
+    public void printMapStringString(Map<String,String> map){
+        for(int i = 0; i < map.size(); i++){
+            String key = (String) map.keySet().toArray()[i];
+            System.out.println(key + ": " + map.get(key));
+        }
+    }
+    public void printNodes(List<Node> nodes){
+        for(Node n:nodes){            
+            System.out.println(n.getName() + ": " + n.getLabel());
+        }
+    }
 }

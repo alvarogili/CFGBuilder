@@ -44,7 +44,7 @@ public class Graph {
     public Node getEndNode() {
         return endNode;
     }
-
+    
     public void setNodeList(List<Node> nodeList) {
         this.nodeList = nodeList;
         generateExitNode();
