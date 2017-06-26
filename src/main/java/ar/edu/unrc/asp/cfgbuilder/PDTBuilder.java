@@ -5,6 +5,8 @@
  */
 package ar.edu.unrc.asp.cfgbuilder;
 
+import ar.edu.unrc.asp.model.Next;
+import ar.edu.unrc.asp.model.Node;
 import ar.edu.unrc.asp.model.Graph;
 import ar.edu.unrc.asp.model.PDT;
 import java.io.File;
@@ -153,6 +155,7 @@ public class PDTBuilder extends Builder{
 
         //3. for each node n in N do D(n) =D(n)−n enddo;
         Map<String, List<Node>> postdominators = calculatePostDominators();
+        pdt.setPostdominators(postdominators);
         //borro cada n de su D(n)
         for(String key: postdominators.keySet()){
             List<Node> list = postdominators.get(key);
@@ -183,6 +186,7 @@ public class PDTBuilder extends Builder{
                         Node mInPdt = pdt.getNodeFromList(m.getName());
                         Node nForPdt = new Node(n.getName(), n.getLabel());
                         mInPdt.addNexts("child", nForPdt);
+                        nForPdt.addPrevious(mInPdt);
                         pdt.addNodeToList(nForPdt);
                         Q.add(n);
                     }

@@ -5,7 +5,6 @@
  */
 package ar.edu.unrc.asp.model;
 
-import ar.edu.unrc.asp.cfgbuilder.Node;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class Graph {
     public Node getEndNode() {
         return endNode;
     }
-
+    
     public void setNodeList(List<Node> nodeList) {
         this.nodeList = nodeList;
         generateExitNode();
@@ -70,5 +69,14 @@ public class Graph {
             }
         }
         return last;
+    }
+    
+    public Node getNodeFromList(String name){
+        for(Node n:getNodeList()){
+            if(n.getName().equals(name)){
+                return n;               
+            }
+        }
+        return null;
     }
 }

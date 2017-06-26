@@ -1,5 +1,5 @@
 
-package ar.edu.unrc.asp.cfgbuilder;
+package ar.edu.unrc.asp.model;
 
 /**
  * Representa a un nodo siguiente

@@ -5,6 +5,8 @@
  */
 package ar.edu.unrc.asp.cfgbuilder;
 
+import ar.edu.unrc.asp.model.Next;
+import ar.edu.unrc.asp.model.Node;
 import ar.edu.unrc.asp.model.Graph;
 import java.io.File;
 import java.io.FileNotFoundException;

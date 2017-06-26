@@ -1,12 +1,10 @@
 package ar.edu.unrc.asp.cfgbuilder;
 
-import ar.edu.unrc.asp.cfgbuilder.parser.LexicalParser;
-import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
+import ar.edu.unrc.asp.model.CFG;
+import ar.edu.unrc.asp.model.Graph;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
-import java_cup.runtime.Symbol;
 
 /**
  *

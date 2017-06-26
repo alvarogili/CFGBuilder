@@ -5,7 +5,8 @@
  */
 package ar.edu.unrc.asp.model;
 
-import ar.edu.unrc.asp.cfgbuilder.Node;
+import java.util.List;
+import java.util.Map;
 
 /**
  * PostDominator Tree
@@ -13,16 +14,16 @@ import ar.edu.unrc.asp.cfgbuilder.Node;
  */
 public class PDT extends Graph{
     
+    Map<String, List<Node>> postdominators;
 
     public PDT() {
-    }        
-   
-    public Node getNodeFromList(String name){
-        for(Node n:super.getNodeList()){
-            if(n.getName().equals(name)){
-                return n;               
-            }
-        }
-        return null;
+    }               
+
+    public Map<String, List<Node>> getPostdominators() {
+        return postdominators;
     }
+
+    public void setPostdominators(Map<String, List<Node>> postdominators) {
+        this.postdominators = postdominators;
+    }        
 }
