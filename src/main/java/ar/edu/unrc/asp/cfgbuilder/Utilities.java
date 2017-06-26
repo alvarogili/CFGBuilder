@@ -32,8 +32,8 @@ public class Utilities {
 
         parseFile(file);
     }
-    
-    public void parseFile(File file){
+
+    public void parseFile(File file) {
         try {
             java_cup.runtime.Scanner scanner = new LexicalParser(new FileReader(file));
             Parser parser = new Parser(scanner);
@@ -85,8 +85,7 @@ public class Utilities {
                 cDGBuilder.generateCDG();
                 File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
                 cDGBuilder.generateDotFile(outputFile, graph);
-            }else if("5".equals(i)){
-                DataFlowUtilities dataFlowUtilities = new DataFlowUtilities(graph);
+            
             } else if ("0".equals(i)) {
                 break;
             }
@@ -99,10 +98,10 @@ public class Utilities {
         System.out.println("\t1: generar un archivo .dot con el CFGBuilder");
         System.out.println("\t2: Calcular Postdominators");
         System.out.println("\t3: generar un archivo .dot con el PostDominator Tree");
-        System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
+        // System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
         System.out.println("\t5: ejecutar el algoritmo \"ReachingDefs\"");
         System.out.println("\t0: Para regresar al menú principal");
-    }    
+    }
 
     public List<Node> getNodeList() {
         return nodeList;
@@ -111,15 +110,40 @@ public class Utilities {
     public Node getStartNode() {
         return startNode;
     }
-        
-    public void printMapStringString(Map<String,String> map){
-        for(int i = 0; i < map.size(); i++){
+
+    public void printMapStringString(Map<String, String> map) {
+        for (int i = 0; i < map.size(); i++) {
             String key = (String) map.keySet().toArray()[i];
             System.out.println(key + ": " + map.get(key));
         }
     }
-    public void printNodes(List<Node> nodes){
-        for(Node n:nodes){            
+
+    public void printMapStringListStrings(Map<String, List<String>> map) {
+        for (int i = 0; i < map.size(); i++) {
+            String key = (String) map.keySet().toArray()[i];
+            System.out.print(key + ": ");
+            System.out.print("{");
+            if (map.get(key) == null) {
+                System.out.print("{}");
+            } else {
+                boolean first = true;
+                for (int j = 0; j < map.get(key).size(); j++) {
+                    String s = map.get(key).get(j);
+                    if (s != null) {
+                        if (!first) {
+                            System.out.print(", ");
+                        }
+                        System.out.print(s);
+                        first = false;
+                    }
+                }
+            }
+            System.out.println("}");
+        }
+    }
+
+    public void printNodes(List<Node> nodes) {
+        for (Node n : nodes) {
             System.out.println(n.getName() + ": " + n.getLabel());
         }
     }
