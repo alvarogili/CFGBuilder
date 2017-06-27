@@ -118,10 +118,10 @@ public class Utilities {
         }
     }
 
-    public void printMapStringListStrings(Map<String, List<String>> map) {
+    public void printMapStringListStrings(Map<String, List<String>> map, Graph graph) {
         for (int i = 0; i < map.size(); i++) {
             String key = (String) map.keySet().toArray()[i];
-            System.out.print(key + ": ");
+            System.out.print(key + "[" + graph.getNodeFromList(key).getLabel() + "]: ");
             System.out.print("{");
             if (map.get(key) == null) {
                 System.out.print("{}");

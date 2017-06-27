@@ -101,9 +101,9 @@ class DataFlowUtilities {
         
         Utilities utilities = new Utilities();
         System.out.println("\n\nLista de INTs:");
-        utilities.printMapStringListStrings(ints);
+        utilities.printMapStringListStrings(ints, cfg);
         System.out.println("\n\nLista de OUTs:");
-        utilities.printMapStringListStrings(outs);
+        utilities.printMapStringListStrings(outs, cfg);
     }
 
     private List<String> unionOutsP(List<Node> previous, Map<String, List<String>> outs) {
