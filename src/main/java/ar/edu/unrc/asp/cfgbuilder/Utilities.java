@@ -78,11 +78,11 @@ public class Utilities {
             } else if ("2".equals(i) || "3".equals(i)) {
                 PDTBuilder pDTBuilder = new PDTBuilder(graph, file);
                 pDTBuilder.processOperations(i);
-            } else if ("4".equals(i)) {
-                CDGBuilder cDGBuilder = new CDGBuilder((CFG) graph);
-                cDGBuilder.generateCDG();
-                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
-                cDGBuilder.generateDotFile(outputFile, graph);
+//            } else if ("4".equals(i)) {
+//                CDGBuilder cDGBuilder = new CDGBuilder((CFG) graph);
+//                cDGBuilder.generateCDG();
+//                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
+//                cDGBuilder.generateDotFile(outputFile, graph);
             } else if ("5".equals(i)) {
                 DataFlowUtilities dataFlowUtilities = new DataFlowUtilities();
                 dataFlowUtilities.reachingDefs(graph);
