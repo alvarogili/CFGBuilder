@@ -59,8 +59,7 @@ public class Utilities {
         while (true) {
             printHelp();
             String i = reader.next();
-
-            Graph graph = new Graph();
+            Graph graph = new CFG();
             graph.setStartNode(startNode);
             graph.setNodeList(nodeList);
 
@@ -77,15 +76,16 @@ public class Utilities {
                 }
 
             } else if ("2".equals(i) || "3".equals(i)) {
-
                 PDTBuilder pDTBuilder = new PDTBuilder(graph, file);
                 pDTBuilder.processOperations(i);
-            } else if ("4".equals(i)) {
-                CDGBuilder cDGBuilder = new CDGBuilder((CFG) graph);
-                cDGBuilder.generateCDG();
-                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
-                cDGBuilder.generateDotFile(outputFile, graph);
-            
+//            } else if ("4".equals(i)) {
+//                CDGBuilder cDGBuilder = new CDGBuilder((CFG) graph);
+//                cDGBuilder.generateCDG();
+//                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
+//                cDGBuilder.generateDotFile(outputFile, graph);
+            } else if ("5".equals(i)) {
+                DataFlowUtilities dataFlowUtilities = new DataFlowUtilities();
+                dataFlowUtilities.reachingDefs(graph);
             } else if ("0".equals(i)) {
                 break;
             }
@@ -118,10 +118,10 @@ public class Utilities {
         }
     }
 
-    public void printMapStringListStrings(Map<String, List<String>> map) {
+    public void printMapStringListStrings(Map<String, List<String>> map, Graph graph) {
         for (int i = 0; i < map.size(); i++) {
             String key = (String) map.keySet().toArray()[i];
-            System.out.print(key + ": ");
+            System.out.print(key + "[" + graph.getNodeFromList(key).getLabel() + "]: ");
             System.out.print("{");
             if (map.get(key) == null) {
                 System.out.print("{}");
