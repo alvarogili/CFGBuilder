@@ -1,11 +1,9 @@
 package ar.edu.unrc.asp.cfgbuilder;
 
-import ar.edu.unrc.asp.model.Node;
+import ar.edu.unrc.asp.model.*;
 import ar.edu.unrc.asp.cfgbuilder.parser.LexicalParser;
 import ar.edu.unrc.asp.cfgbuilder.parser.Parser;
-import ar.edu.unrc.asp.model.CFG;
-import ar.edu.unrc.asp.model.Constants;
-import ar.edu.unrc.asp.model.Graph;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -83,14 +81,43 @@ public class Utilities {
 //                cDGBuilder.generateCDG();
 //                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
 //                cDGBuilder.generateDotFile(outputFile, graph);
-            } else if ("5".equals(i)) {
+            } else if ("5".equals(i) || "6".equals(i)) {
                 DataFlowUtilities dataFlowUtilities = new DataFlowUtilities();
                 dataFlowUtilities.reachingDefs(graph);
+                if("5".equals(i)){
+                    Utilities utilities = new Utilities();
+                    System.out.println("\n\nLista de INTs:");
+                    utilities.printMapStringListStrings(dataFlowUtilities.getInts(), graph);
+                    System.out.println("\n\nLista de OUTs:");
+                    utilities.printMapStringListStrings(dataFlowUtilities.getOuts(), graph);
+                } else if("6".equals(i)) {
+                    Map<Node, List<DUPair>> duPairs = dataFlowUtilities.computeDefUsePairs(graph);
+                    printMapNodeListDUPairs(duPairs);
+                }
             } else if ("0".equals(i)) {
                 break;
             }
         }
 
+    }
+
+    private void printMapNodeListDUPairs(Map<Node, List<DUPair>> map) {
+        for (int i = 0; i < map.size(); i++) {
+            Node key = (Node) map.keySet().toArray()[i];
+            System.out.print("[" +key.getName() + "]("+key.getLabel()+"): ");
+            if (map.get(key) == null || map.get(key).isEmpty()) {
+                System.out.print("none");
+            } else {
+                for (int j = 0; j < map.get(key).size(); j++) {
+                    DUPair pair = map.get(key).get(j);
+                    System.out.print("["+pair.getUsedPosition()+":"+pair.getUsed()+","+pair.getDeclaredPosition()+":"+pair.getDeclared()+"]");
+                    if(0<j && j<map.get(key).size()-1){
+                        System.out.print(",");
+                    }
+                }
+            }
+            System.out.println();
+        }
     }
 
     private void printHelp() {
@@ -100,6 +127,7 @@ public class Utilities {
         System.out.println("\t3: generar un archivo .dot con el PostDominator Tree");
         // System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
         System.out.println("\t5: ejecutar el algoritmo \"ReachingDefs\"");
+        System.out.println("\t6: ejecutar el algoritmo \"ComputeDefUsePairs\"");
         System.out.println("\t0: Para regresar al menú principal");
     }
 
