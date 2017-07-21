@@ -28,12 +28,16 @@ public class Node implements Comparable<Node>{
     
     private boolean start = false;
 
+    private String declaredVariable = null;
+
+    private List<String> usedVariables = new LinkedList<>();
+
     public Node() {
     }
 
     public Node(String name, String label) {
         this.name = name;
-        this.label = label;
+        setLabel(label);
     }
 
     public boolean isStart() {
@@ -58,7 +62,83 @@ public class Node implements Comparable<Node>{
 
     public void setLabel(String label) {
         this.label = label;
-    }   
+    }
+
+    private void calculateUsedVariables(String label) {
+        if(specialNode(label))
+            return;
+        String expression = label;
+        if (expression.contains(":=")) {
+            //me quedo con la parte derecha de la asignación
+            expression = expression.substring(expression.indexOf(":=") + 2).trim();
+        }
+        //si lo asignado es un número, no hay uso de variables
+        if (isNumeric(expression)) {
+            return;
+        }
+        String symbol = haveTwoParts(expression);
+        if (symbol == null) {
+            // es una sentencia de tipo a := b
+            usedVariables.add(expression);
+        }else{
+            String firstPart = expression.substring(0, expression.indexOf(symbol)).trim();
+            String secondPart = expression.substring(expression.indexOf(symbol) + symbol.length(), expression.length()).trim();
+            if(!isNumeric(firstPart))
+                usedVariables.add(firstPart);
+            if(!isNumeric(secondPart))
+                usedVariables.add(secondPart);
+        }
+
+    }
+
+    private String haveTwoParts(String sentence) {
+        if(sentence.contains("+"))
+            return "+";
+        if(sentence.contains("-"))
+            return "-";
+        if(sentence.contains("*"))
+            return "*";
+        if(sentence.contains("/"))
+            return "/";
+        if(sentence.contains(">"))
+            return ">";
+        if(sentence.contains("<"))
+            return "<";
+        if(sentence.contains("=="))
+            return "==";
+        return null;
+    }
+
+    private boolean isNumeric(String string) {
+        try {
+            Integer.parseInt(string);
+            return true;
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+    }
+
+    private boolean specialNode(String temp) {
+        if (temp.contains("endIf") || temp.contains("endDo") ||
+                temp.contains("entry") || temp.contains("start") || temp.contains("exit")) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Dada una sentencia del tipo a := b, retorna a, sino retorna null
+     *
+     * @param label
+     * @return
+     */
+    protected void extractVariable(String label) {
+        int indexOfAssing = label.indexOf(":=");
+        if (indexOfAssing != -1) {
+            declaredVariable = label.substring(0, indexOfAssing).trim();
+        }
+    }
 
     public void setPosition(Integer position) {
         this.position = position;
@@ -195,9 +275,6 @@ public class Node implements Comparable<Node>{
         for (Node n : previous) {
             result += "\t" + getName() + "->" + n.getName() + " [label=\"previous\"];\n";
         }
-//        if (previous.isEmpty()) {
-//            result += "\t" + getName() + "[shape=doublecircle];\n";
-//        }
         return result;
     }
 
@@ -230,6 +307,15 @@ public class Node implements Comparable<Node>{
         hash = 67 * hash + Objects.hashCode(this.name);
         return hash;
     }
-    
-    
+
+
+    public String getDeclaredVariable() {
+        extractVariable(label);
+        return declaredVariable;
+    }
+
+    public List<String> getUsedVariables(){
+        calculateUsedVariables(label);
+        return usedVariables;
+    }
 }
