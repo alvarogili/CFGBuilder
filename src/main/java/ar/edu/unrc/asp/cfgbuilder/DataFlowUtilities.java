@@ -148,6 +148,8 @@ class DataFlowUtilities {
                 String declaredVariable = n2.getDeclaredVariable();
                 if (declaredVariable != null && declaredVariable.equals(usedVariable)) {
                     DUPair duPair = new DUPair(n.getPosition(), usedVariable, n2.getPosition(), declaredVariable);
+                    duPair.setDeclaredNode(n2);
+                    duPair.setUsedNode(n);
                     if (!duPairs.contains(duPair) && n2.getPosition() != n.getPosition())
                         duPairs.add(duPair);
                 }
@@ -156,4 +158,20 @@ class DataFlowUtilities {
         return duPairs;
     }
 
+    public Graph generateDDG(Graph graph, Map<Node, List<DUPair>> duPairs) {
+        //genero las relaciones
+        for(int i = 0; i< duPairs.size(); i++){
+            List<DUPair> duPairList = (List<DUPair>) duPairs.values().toArray()[i];
+            if(duPairList == null){
+                continue;
+            }
+            for(DUPair duPair: duPairList){
+                Node declared = graph.getNodeFromList(duPair.getDeclaredNode().getName());
+                Node used = graph.getNodeFromList(duPair.getUsedNode().getName());
+                declared.addNexts("next", used);
+                used.addPrevious(declared);
+            }
+        }
+        return graph;
+    }
 }

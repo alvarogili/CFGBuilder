@@ -1,0 +1,26 @@
+digraph{
+	inic[shape=point];
+
+	entry[label="entry"]
+	n0[label="id:=1"]
+	n1[label="id:=id+1"]
+	n2[label="id2:=2"]
+	n3[label="id<10"]
+	n4[label="endDo0"]
+	n5[label="id2:=3"]
+	exit[label="exit"]
+
+	inic->entry;
+	entry->n0 [label="next"];
+	n0->n1 [label="next"];
+	n0->n1 [label="next"];
+	n0->n3 [label="next"];
+	n1->n2 [label="next"];
+	n1->n3 [label="next"];
+	n2->n3 [label="exp"];
+	n3->n4 [label="ifFalse"];
+	n3->n1 [label="ifTrue"];
+	n4->n5 [label="next"];
+	n5->exit [label="next"];
+	exit[shape=doublecircle];
+}

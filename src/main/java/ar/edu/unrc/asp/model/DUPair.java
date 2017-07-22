@@ -10,10 +10,13 @@ package ar.edu.unrc.asp.model;
  * @author agili
  */
 public class DUPair {
-    int usedPosition;
-    String used;
-    int declaredPosition;
-    String declared;
+    private int usedPosition;
+    private String used;
+    private int declaredPosition;
+    private String declared;
+    //nodos para generar relaciones en DDG
+    private Node declaredNode;
+    private Node usedNode;
 
     public DUPair(int usedPosition, String used, int declaredPosition, String declared) {
         this.usedPosition = usedPosition;
@@ -52,6 +55,22 @@ public class DUPair {
 
     public String getDeclared() {
         return declared;
+    }
+
+    public Node getDeclaredNode() {
+        return declaredNode;
+    }
+
+    public void setDeclaredNode(Node declaredNode) {
+        this.declaredNode = declaredNode;
+    }
+
+    public Node getUsedNode() {
+        return usedNode;
+    }
+
+    public void setUsedNode(Node usedNode) {
+        this.usedNode = usedNode;
     }
 
     @Override

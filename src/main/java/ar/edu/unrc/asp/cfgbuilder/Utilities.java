@@ -11,10 +11,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+
 import java_cup.runtime.Symbol;
 
 /**
- *
  * @author agili
  */
 public class Utilities {
@@ -81,18 +81,31 @@ public class Utilities {
 //                cDGBuilder.generateCDG();
 //                File outputFile = new File(file.getParent(), "CDGBuilder_of_" + file.getName() + ".dot");
 //                cDGBuilder.generateDotFile(outputFile, graph);
-            } else if ("5".equals(i) || "6".equals(i)) {
+            } else if ("5".equals(i) || "6".equals(i) || "7".equals(i)) {
                 DataFlowUtilities dataFlowUtilities = new DataFlowUtilities();
                 dataFlowUtilities.reachingDefs(graph);
-                if("5".equals(i)){
+                if ("5".equals(i)) {
                     Utilities utilities = new Utilities();
                     System.out.println("\n\nLista de INTs:");
                     utilities.printMapStringListStrings(dataFlowUtilities.getInts(), graph);
                     System.out.println("\n\nLista de OUTs:");
                     utilities.printMapStringListStrings(dataFlowUtilities.getOuts(), graph);
-                } else if("6".equals(i)) {
+                } else if ("6".equals(i) || "7".equals(i)) {
                     Map<Node, List<DUPair>> duPairs = dataFlowUtilities.computeDefUsePairs(graph);
-                    printMapNodeListDUPairs(duPairs);
+                    if ("6".equals(i)) {
+                        printMapNodeListDUPairs(duPairs);
+                    } else if ("7".equals(i)) {
+                        Graph ddg = dataFlowUtilities.generateDDG(graph, duPairs);
+                        File outputFile = new File(file.getParent(), "DDG_of_" + file.getName() + ".dot");
+                        CFGBuilder cfgBuilder = new CFGBuilder();
+                        cfgBuilder.setCFG((CFG) ddg);
+                        try {
+                            cfgBuilder.generateDotFile(outputFile);
+                            System.out.println("\nDDG Builder guardado en " + outputFile.getAbsolutePath());
+                        } catch (IOException ex) {
+                            System.out.println("\nError al guardar " + outputFile.getAbsolutePath());
+                        }
+                    }
                 }
             } else if ("0".equals(i)) {
                 break;
@@ -104,14 +117,14 @@ public class Utilities {
     private void printMapNodeListDUPairs(Map<Node, List<DUPair>> map) {
         for (int i = 0; i < map.size(); i++) {
             Node key = (Node) map.keySet().toArray()[i];
-            System.out.print("[" +key.getName() + "]("+key.getLabel()+"): ");
+            System.out.print("[" + key.getName() + "](" + key.getLabel() + "): ");
             if (map.get(key) == null || map.get(key).isEmpty()) {
                 System.out.print("none");
             } else {
                 for (int j = 0; j < map.get(key).size(); j++) {
                     DUPair pair = map.get(key).get(j);
-                    System.out.print("["+pair.getUsedPosition()+":"+pair.getUsed()+","+pair.getDeclaredPosition()+":"+pair.getDeclared()+"]");
-                    if(0<j && j<map.get(key).size()-1){
+                    System.out.print("[" + pair.getUsedPosition() + ":" + pair.getUsed() + "," + pair.getDeclaredPosition() + ":" + pair.getDeclared() + "]");
+                    if (0 < j && j < map.get(key).size() - 1) {
                         System.out.print(",");
                     }
                 }
@@ -128,6 +141,7 @@ public class Utilities {
         // System.out.println("\t4: generar un archivo .dot con el Control Dependence Graph");
         System.out.println("\t5: ejecutar el algoritmo \"ReachingDefs\"");
         System.out.println("\t6: ejecutar el algoritmo \"ComputeDefUsePairs\"");
+        System.out.println("\t7: generar un archivo .dot con el DDG");
         System.out.println("\t0: Para regresar al menú principal");
     }
 
