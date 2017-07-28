@@ -54,12 +54,12 @@ public class Utilities {
     }
 
     public void operations(Scanner reader) throws IOException {
+        Graph graph = new CFG();
+        graph.setStartNode(startNode);
+        graph.setNodeList(nodeList);
         while (true) {
             printHelp();
             String i = reader.next();
-            Graph graph = new CFG();
-            graph.setStartNode(startNode);
-            graph.setNodeList(nodeList);
 
             if ("1".equals(i)) {
                 File outputFile = new File(file.getParent(), "CFGBuilder_of_" + file.getName() + ".dot");
